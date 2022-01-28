@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<launch>
+  <!-- Values passed by command line input -->
+  <arg name="model" default="robot" />
+  <arg name="gui" default="False" />
+
+  <!-- Set this parameters on Parameter Server -->
+  <param name="robot_description" command="$(find xacro)/xacro '$(find gazebo_test_inertial)/urdf/$(arg model).xacro'" />
+
+  <!-- Start nodes: joint_state_publisher, robot_state publisher, joint_state_publisher_gui and rviz -->
+  <node pkg="joint_state_publisher" name="joint_state_publisher" type="joint_state_publisher" />
+
+  <node pkg="robot_state_publisher" name="robot_state_publisher" type="robot_state_publisher" />
+
+  <node pkg="joint_state_publisher_gui" name="joint_state_publisher_gui" type="joint_state_publisher_gui" if="$(arg gui)" />
+
+  <node name="rviz" pkg="rviz" type="rviz" args="-d $(find gazebo_test_inertial)/rviz/robot_model.rviz" />
+</launch>

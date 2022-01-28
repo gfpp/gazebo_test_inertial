@@ -1,0 +1,37 @@
+<?xml version='1.0'?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+    <xacro:include filename="$(find gazebo_test_inertial)/urdf/params.xacro" />
+
+    <!-- Macro for robot wheel -->
+    <xacro:macro name="wheel" params="name joint_xyz">
+        <link name="${name}_link">
+            <visual>
+                <origin xyz="0 0 0" rpy="${pi / 2} 0 0" />
+                <geometry>
+                    <cylinder length="${wheel_h}" radius="${wheel_r}" />
+                </geometry>
+            </visual>
+            <collision>
+                <origin xyz="0 0 0" rpy="${pi / 2} 0 0" />
+                <geometry>
+                    <cylinder length="${wheel_h}" radius="${wheel_r}" />
+                </geometry>
+            </collision>
+            <inertial>
+                <origin xyz="0 0 0" rpy="${pi / 2} 0 0" />
+                <mass value="${wheel_mass}" />
+                <inertia ixx="${wheel_Ixx}" ixy="0" ixz="0"
+                    iyy="${wheel_Ixx}" iyz="0" izz="${wheel_Izz}" />
+            </inertial>
+        </link>
+        <joint name="${name}_joint" type="continuous">
+            <origin xyz="${joint_xyz}" rpy="0 0 0" />
+            <!-- <dynamics damping="0.2" friction="0.2" />  -->
+            <parent link="base_link" />
+            <child link="${name}_link" />
+            <axis xyz="0 1 0" />
+        </joint>
+    </xacro:macro>
+
+</robot>
